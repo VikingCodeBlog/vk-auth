@@ -1,0 +1,18 @@
+{
+  "name": "vkauth",
+  "version": "0.0.1",
+  "description": "Auth service for viking apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Código Vikingo",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "vkmongo": "0.0.8"
+  }
+}
