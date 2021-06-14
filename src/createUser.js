@@ -41,7 +41,7 @@ const create = async (req, res) => {
         surname
     });
 
-    const createdUser = await newUser.save();
+    let createdUser = await newUser.save();
     const userData = new vkUserData({
         user: createdUser._id,
         nikName,
@@ -50,6 +50,8 @@ const create = async (req, res) => {
         lastConnection: new Date()
     });
 
+    createdUser = createdUser.toObject();
+    delete createdUser.password;
     createdUser.data = await userData.save();
     return res.send(createdUser);
 }
