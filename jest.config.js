@@ -1,5 +1,5 @@
 module.exports = {
   verbose: true,
-  setupFiles: ["dotenv/config"],
-  silent: true
+  setupFiles: ['dotenv/config'],
+  silent: true,
 };
