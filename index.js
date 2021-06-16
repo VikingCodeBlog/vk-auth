@@ -11,9 +11,9 @@ if (!process.env.NODE_ENV !== 'production') {
 }
 
 // Init mongo database
-require('vkmongo');
+const db = require('vkmongo');
 
-app.listen(process.env.port || 3000, () => {
+const server = app.listen(process.env.port || 3000, () => {
   console.log('vkAuth up');
 });
 
@@ -21,3 +21,5 @@ app.listen(process.env.port || 3000, () => {
 app.post('/create', createUser.create);
 app.post('/authenticate', localLogin.authenticate);
 app.get('/checkAuth', localLogin.checkAuth);
+
+module.exports = {app, db, server};
