@@ -2,7 +2,7 @@
 Este servicio permite crear usuarios, hacer login en las aplicaciones, comprobar si las sesiones son correctas.
 
 ## Set Up
-### Variables de edntorno necesarias
+### Variables de entorno necesarias
 ```js
 AUTH_KEY // Clave para encriptar y comparar contraseñas
 MONGO_URI // Ruta a base de datos
