@@ -2,18 +2,31 @@
 Este servicio permite crear usuarios, hacer login en las aplicaciones, comprobar si las sesiones son correctas.
 
 ## Set Up
-### Variables de edntorno necesarias   
+### Variables de edntorno necesarias
 ```js
 AUTH_KEY // Clave para encriptar y comparar contraseñas
 MONGO_URI // Ruta a base de datos
 ```
+En el caso de levantar la aplicación en desarrollo, hace uso de ".env" así que es necesario crear el archivo en la raíz del proyecto.
+
 ### Instalar  
 `npm i`
 
-### Levantar  
-`node index`
-
 ## Docs
+
+### Comandos
+
+#### Levantar producción
+`npm start`
+
+#### Levantar dev
+`npm run dev`
+
+#### Lanzar test
+`npm run test`
+
+#### Lanzar linters
+`npm run test`
 
 ### Rutas   
 [POST]**/create** -> Crea un nuevo usuario
@@ -70,3 +83,9 @@ response = {
     }
 }
 ```
+
+## Stack
+- Node
+- Test: SuperTest y Jest
+- DBDriver: Mongoose (Mediante la librería vkMongo)
+- Lint: ESLint y Prettier
