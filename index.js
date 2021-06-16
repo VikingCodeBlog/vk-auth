@@ -1,18 +1,20 @@
 const express = require('express');
+const dotenv = require('dotenv');
+const localLogin = require('./src/localLogin');
+const createUser = require('./src/createUser');
+
 const app = express();
-const localLogin = require('./src/localLogin')
-const createUser = require('./src/createUser')
 app.use(express.json());
 
 if (!process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
+  dotenv.config();
 }
 
-//Init mongo database
+// Init mongo database
 require('vkmongo');
 
 app.listen(process.env.port || 3000, () => {
-    console.log('vkAuth up')
+  console.log('vkAuth up');
 });
 
 // Routes
