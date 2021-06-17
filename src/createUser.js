@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { VK_User, VK_UserData } = require('vkmongo/models');
 const { mongooseTypes } = require('vkmongo/helpers');
+const { sendMail } = require('./helpers/sendEmail')
 
 async function checkEmail(email, res) {
   const exist = await VK_UserData.findOne({ email });
@@ -35,6 +36,7 @@ const create = async (req, res) => {
       name,
       password,
       surname,
+      validated: false,
     });
 
     let createdUser = await newUser.save();
@@ -49,6 +51,12 @@ const create = async (req, res) => {
     createdUser = createdUser.toObject();
     delete createdUser.password;
     createdUser.data = await userData.save();
+    const from = process.env.CREATE_USER_EMAIL_FROM;
+    const to = createdUser.data.email;
+    const subject = process.env.CREATE_USER_EMAIL_SUBJECT;
+    const text = process.env.CREATE_USER_EMAIL_BASEURL + createdUser._id;
+    const html = process.env.CREATE_USER_EMAIL_HTML.replace('URL', text);
+    sendMail(from, to, subject, text, html);
     return res.send(createdUser);
   }
 
