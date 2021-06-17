@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const vkUserData = require('../node_modules/vkmongo/src/models/userData');
+const { VK_UserData } = require('vkmongo/models');
 
 async function userExist(email) {
-  return vkUserData.findOne({ email }).populate('user');
+  return VK_UserData.findOne({ email }).populate('user');
 }
 
 async function checkPassword(userData, inputPassword) {

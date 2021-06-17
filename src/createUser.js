@@ -1,10 +1,9 @@
 const bcrypt = require('bcrypt');
-const VkUser = require('../node_modules/vkmongo/src/models/user');
-const VkUserData = require('../node_modules/vkmongo/src/models/userData');
-const { mongooseTypes } = require('../node_modules/vkmongo/src/helpers/types');
+const { VK_User, VK_UserData } = require('vkmongo/models');
+const { mongooseTypes } = require('vkmongo/helpers');
 
 async function checkEmail(email, res) {
-  const exist = await VkUserData.findOne({ email });
+  const exist = await VK_UserData.findOne({ email });
   if (exist) {
     res.status(409).send({ message: 'Error email exist' });
   }
@@ -31,7 +30,7 @@ const create = async (req, res) => {
   if (validEmail) {
     password = await hassPassword(password);
 
-    const newUser = new VkUser({
+    const newUser = new VK_User({
       _id: new mongooseTypes.ObjectId(),
       name,
       password,
@@ -39,7 +38,7 @@ const create = async (req, res) => {
     });
 
     let createdUser = await newUser.save();
-    const userData = new VkUserData({
+    const userData = new VK_UserData({
       user: createdUser._id,
       nikName,
       telf,
