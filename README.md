@@ -6,6 +6,8 @@ Este servicio permite crear usuarios, hacer login en las aplicaciones, comprobar
 ```js
 AUTH_KEY // Clave para encriptar y comparar contraseñas
 MONGO_URI // Ruta a base de datos
+AMQP_URL // Ruta de RabbitMQ
+AMQP_QUEUE // Cola de RabbitMQ
 ```
 En el caso de levantar la aplicación en desarrollo, hace uso de ".env" así que es necesario crear el archivo en la raíz del proyecto.
 
