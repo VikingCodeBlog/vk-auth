@@ -17,6 +17,12 @@
         "ecmaVersion": 12
     },
     "rules": {
+        "camelcase": [
+            0,
+            {
+                "ignoreImports": false
+            }
+        ],
         "prettier/prettier": "error",
         "no-underscore-dangle": "off",
         "object-curly-newline": "off"
