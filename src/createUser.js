@@ -55,7 +55,7 @@ const create = async (req, res) => {
     const to = createdUser.data.email;
     const subject = process.env.CREATE_USER_EMAIL_SUBJECT;
     const text = process.env.CREATE_USER_EMAIL_BASEURL + createdUser._id;
-    const html = process.env.CREATE_USER_EMAIL_HTML.replace('URL', text);
+    const html = process.env.CREATE_USER_EMAIL_HTML.toString().replace('URL', text);
     sendMail(from, to, subject, text, html);
     return res.send(createdUser);
   }

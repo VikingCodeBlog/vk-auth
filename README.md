@@ -8,6 +8,10 @@ AUTH_KEY // Clave para encriptar y comparar contraseñas
 MONGO_URI // Ruta a base de datos
 AMQP_URL // Ruta de RabbitMQ
 AMQP_QUEUE // Cola de RabbitMQ
+CREATE_USER_EMAIL_BASEURL // URL para validar el usuario
+CREATE_USER_EMAIL_FROM // Email from
+CREATE_USER_EMAIL_SUBJECT // Email subject
+CREATE_USER_EMAIL_HTML // Web que se enviará por email para validar el usuario
 ```
 En el caso de levantar la aplicación en desarrollo, hace uso de ".env" así que es necesario crear el archivo en la raíz del proyecto.
 
