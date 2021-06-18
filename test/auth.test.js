@@ -20,7 +20,7 @@ beforeEach(async () => {
 describe('Create user', () => {
   test('Should return an error due to the empty data', async () => {
     await api
-      .post('/create')
+      .post('/user/create')
       .expect(422)
       .expect('Content-Type', /application\/json/);
   });
@@ -28,7 +28,7 @@ describe('Create user', () => {
   test('Should return an error required data [email]', async () => {
     delete newUser.email;
     await api
-      .post('/create')
+      .post('/user/create')
       .send(newUser)
       .expect(422)
       .expect('Content-Type', /application\/json/);
@@ -37,7 +37,7 @@ describe('Create user', () => {
   test('Should return an error required data [name]', async () => {
     delete newUser.name;
     await api
-      .post('/create')
+      .post('/user/create')
       .send(newUser)
       .expect(422)
       .expect('Content-Type', /application\/json/);
@@ -46,7 +46,7 @@ describe('Create user', () => {
   test('Should return an error required data [surname]', async () => {
     delete newUser.surname;
     await api
-      .post('/create')
+      .post('/user/create')
       .send(newUser)
       .expect(422)
       .expect('Content-Type', /application\/json/);
@@ -55,14 +55,14 @@ describe('Create user', () => {
   test('Should return an error required data [password]', async () => {
     delete newUser.password;
     await api
-      .post('/create')
+      .post('/user/create')
       .send(newUser)
       .expect(422)
       .expect('Content-Type', /application\/json/);
   });
 
   test('Should create user and return created user with user data', async () => {
-    const { body } = await api.post('/create').send(newUser).expect(200);
+    const { body } = await api.post('/user/create').send(newUser).expect(200);
 
     const bodyProperties = Object.keys(body);
     expect(bodyProperties).toContain('_id');
@@ -80,9 +80,9 @@ describe('Create user', () => {
 
 describe('Authenticate user', () => {
   test('Should authenticate', async () => {
-    await api.post('/create').send(newUser).expect(200);
+    await api.post('/user/create').send(newUser).expect(200);
     const { body } = await api
-      .post('/authenticate')
+      .post('/auth/login/local')
       .send({ email: newUser.email, password: newUser.password })
       .expect('Content-Type', /application\/json/)
       .expect(200);
@@ -94,16 +94,16 @@ describe('Authenticate user', () => {
 
   test('Should return error, user does not exist', async () => {
     await api
-      .post('/authenticate')
+      .post('/auth/login/local')
       .send({ email: newUser.email, password: newUser.password })
       .expect('Content-Type', /application\/json/)
       .expect(401);
   });
 
   test('Should return error, incorrect password', async () => {
-    await api.post('/create').send(newUser).expect(200);
+    await api.post('/user/create').send(newUser).expect(200);
     await api
-      .post('/authenticate')
+      .post('/auth/login/local')
       .send({ email: newUser.email, password: `${newUser.password}extra` })
       .expect('Content-Type', /application\/json/)
       .expect(401);
@@ -113,20 +113,23 @@ describe('Authenticate user', () => {
 describe('Check Auth', () => {
   test('Should be a incorrect token', async () => {
     await api
-      .get('/checkAuth')
+      .get('/auth/check-token')
       .set({ 'access-token': 'test incorrect token' })
       .expect(401);
   });
 
   test('Should be a correct token', async () => {
-    await api.post('/create').send(newUser).expect(200);
+    await api.post('/user/create').send(newUser).expect(200);
     const { body } = await api
-      .post('/authenticate')
+      .post('/auth/login/local')
       .send({ email: newUser.email, password: newUser.password })
       .expect('Content-Type', /application\/json/)
       .expect(200);
 
-    await api.get('/checkAuth').set({ 'access-token': body.token }).expect(200);
+    await api
+      .get('/auth/check-token')
+      .set({ 'access-token': body.token })
+      .expect(200);
   });
 });
 

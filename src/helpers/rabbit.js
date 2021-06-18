@@ -1,4 +1,5 @@
 const amqp = require('amqplib');
+
 let rabbitConnection;
 let channel;
 let queue;
@@ -7,7 +8,7 @@ async function connectRabbit(url, _queue) {
   rabbitConnection = await amqp.connect(url);
   channel = await rabbitConnection.createChannel();
   channel.assertQueue(_queue, {
-    durable: false
+    durable: false,
   });
   queue = _queue;
 }
@@ -21,4 +22,4 @@ function sendToRabbit(toSend) {
   channel.sendToQueue(queue, Buffer.from(msg));
 }
 
-module.exports = { connectRabbit, disconnectRabbit, sendToRabbit }
+module.exports = { connectRabbit, disconnectRabbit, sendToRabbit };
