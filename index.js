@@ -23,4 +23,4 @@ process.on('exit', () => {
   db.close();
 });
 
-module.exports = { app, db, server };
+module.exports = { app, db, server, disconnectRabbit };

@@ -1,5 +1,5 @@
 const supertest = require('supertest');
-const { app, db, server } = require('../index');
+const { app, db, server, disconnectRabbit } = require('../index');
 
 const api = supertest(app);
 
@@ -136,4 +136,5 @@ describe('Check Auth', () => {
 afterAll(() => {
   db.close();
   server.close();
+  disconnectRabbit();
 });
