@@ -1,7 +1,8 @@
 const { VK_UserData, VK_User } = require('vkmongo/models');
 const { mongooseTypes } = require('vkmongo/helpers');
 
-const findByEmail = async (email) => VK_UserData.findOne({ email }).populate('user');
+const findByEmail = async (email) => VK_UserData.findOne({ email }).populate('user'); // eslint-disable-line
+
 const update = async (id, user) => VK_User.findByIdAndUpdate(id, user);
 
 const create = async (user) => {

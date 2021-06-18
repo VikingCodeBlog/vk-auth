@@ -1,4 +1,5 @@
 const supertest = require('supertest');
+const jwt = require('jsonwebtoken');
 const { app, db, server, disconnectRabbit } = require('../index');
 
 const api = supertest(app);
@@ -130,6 +131,22 @@ describe('Check Auth', () => {
       .get('/auth/check-token')
       .set({ 'access-token': body.token })
       .expect(200);
+  });
+});
+
+describe('Validate user', () => {
+  test('Should retrun error invalid token', async () => {
+    await api.get('/user/validate-by-email/testToken').expect(401);
+  });
+
+  test('Should validate user by token', async () => {
+    const { body } = await api.post('/user/create').send(newUser).expect(200);
+
+    const testToken = jwt.sign({ userId: body._id }, process.env.AUTH_KEY, {
+      expiresIn: 20000,
+    });
+
+    await api.get(`/user/validate-by-email/${testToken}`).expect(200);
   });
 });
 

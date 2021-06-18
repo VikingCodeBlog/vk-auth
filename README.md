@@ -35,7 +35,7 @@ En el caso de levantar la aplicación en desarrollo, hace uso de ".env" así que
 `npm run test`
 
 ### Rutas   
-[POST]**/create** -> Crea un nuevo usuario
+[POST]**/user/create** -> Crea un nuevo usuario (Envia un email para que el usuario valide su cuenta)
 ```js
 request.body = {
     name,  
@@ -58,8 +58,18 @@ response = { // User model
         lastConnection
 }
 ```
+[GET]**/user/validate-by-email/:token`** -> Valida el usuario con el token generado
+```js
+// Los parámetros van en la ruta
+```
 
-[POST]**/authenticate** -> Permite hacer login con usuario y contraseña
+```js
+response = {
+      message
+    }
+```
+
+[POST]**/auth/login/local** -> Permite hacer login con usuario y contraseña
 ```js
 request.body = {
     email,
@@ -73,7 +83,7 @@ response = {
     token
 }
 ```
-[GET]**/checkAuth** -> Comprueba si la sesión es correcta
+[GET]**/auth/check-token** -> Comprueba si la sesión es correcta
 ```js
 request.headers['access-token']
 ```
@@ -89,7 +99,6 @@ response = {
     }
 }
 ```
-
 ## Stack
 - Node
 - Test: SuperTest y Jest

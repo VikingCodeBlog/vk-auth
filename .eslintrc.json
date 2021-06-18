@@ -20,7 +20,6 @@
     "prettier/prettier": "error",
     "no-underscore-dangle": "off",
     "object-curly-newline": "off",
-    "max-len": ["error", { "code": 120 }],
-    "arrow-body-style": [2,  "as-needed", { "max-len": 30 }]
+    "max-len": ["error", { "code": 120 }]
   }
 }

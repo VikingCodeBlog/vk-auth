@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const userBll = require('../bll/user');
 
 const create = async (req, res) => {
@@ -21,13 +22,24 @@ const create = async (req, res) => {
 };
 
 const validateByEmail = async (req, res) => {
-  if (!req.params || !req.params.id) {
+  if (!req.params || !req.params.token) {
     return res.status(401).send({
       message: 'Validation error',
     });
   }
 
-  const user = await userBll.update(req.params.id, {
+  let userDecoded;
+  try {
+    userDecoded = jwt.verify(req.params.token, process.env.AUTH_KEY);
+  } catch (error) {
+    return res.status(401).send({
+      message: `Validation error ${error}`,
+    });
+  }
+
+  const { userId } = userDecoded;
+
+  const user = await userBll.update(userId, {
     validated: true,
   });
 
