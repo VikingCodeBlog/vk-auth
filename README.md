@@ -9,7 +9,7 @@ MONGO_URI // Ruta a base de datos
 AMQP_URL // Ruta de RabbitMQ
 AMQP_QUEUE // Cola de RabbitMQ
 CREATE_USER_EMAIL_BASEURL // URL para validar el usuario
-CREATE_USER_EMAIL_FROM // Email from
+EMAIL_FROM // Email from
 CREATE_USER_EMAIL_SUBJECT // Email subject
 CREATE_USER_EMAIL_HTML // Web que se enviará por email para validar el usuario
 ```
@@ -35,15 +35,18 @@ En el caso de levantar la aplicación en desarrollo, hace uso de ".env" así que
 `npm run test`
 
 ### Rutas   
-[POST]**/user/create** -> Crea un nuevo usuario (Envia un email para que el usuario valide su cuenta)
+[POST]**/user/create** -> 
+    - Crea un nuevo usuario
+    - Envia un email para que el usuario valide su cuenta
+    - Registra esta IP como válida
 ```js
 request.body = {
-    name,  
-    password,  
-    email,  
+    name,  // required
+    password,  // required
+    email,  // required
     nikName, // Optional  
     telf,  // Optional
-    surname 
+    surname // required
 }
 ```
 ```js
@@ -72,8 +75,9 @@ response = {
 [POST]**/auth/login/local** -> Permite hacer login con usuario y contraseña
 ```js
 request.body = {
-    email,
-    password
+    email, // required
+    password, // required
+    ipCode // Opcional en el caso de tener un código para validar la IP
 }
 ```
 
@@ -83,6 +87,21 @@ response = {
     token
 }
 ```
+
+[POST]**/auth/send-ip-code** -> Reenvia el código para activar esta IP
+```js
+request.body = {
+    email, // required
+    password, // required
+}
+```
+
+```js
+response = {
+    mensaje
+}
+```
+
 [GET]**/auth/check-token** -> Comprueba si la sesión es correcta
 ```js
 request.headers['access-token']

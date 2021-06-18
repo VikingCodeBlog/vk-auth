@@ -4,6 +4,9 @@ const userBll = require('../bll/user');
 const create = async (req, res) => {
   const { name, email, nikName, telf, surname } = req.body;
   const { password } = req.body;
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const IPs = [{ ip, validated: true }];
+
   if (!name || !password || !surname || !email) {
     return res.status(422).send({
       message: 'Error: empty data [name, password, surname, email]',
@@ -15,7 +18,7 @@ const create = async (req, res) => {
     return res.status(409).send({ message: 'Error email exist' });
   }
 
-  const _user = { name, email, nikName, telf, surname, password };
+  const _user = { name, email, nikName, telf, surname, password, IPs };
   const createdUser = await userBll.create(_user);
 
   return res.send(createdUser);

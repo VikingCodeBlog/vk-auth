@@ -22,7 +22,7 @@ const sendValidateUser = (createdUser) => {
     expiresIn: 2 * 60 * 60 * 1000, // 2 horas
   });
 
-  const from = process.env.CREATE_USER_EMAIL_FROM;
+  const from = process.env.EMAIL_FROM;
   const to = createdUser.data.email;
   const subject = process.env.CREATE_USER_EMAIL_SUBJECT;
   const text = process.env.CREATE_USER_EMAIL_BASEURL + token;
@@ -30,4 +30,12 @@ const sendValidateUser = (createdUser) => {
   sendMail(from, to, subject, text, html);
 };
 
-module.exports = { sendMail, sendValidateUser };
+const sendValidateIP = (_ip, userIPs, email, randomCode) => {
+  const from = process.env.EMAIL_FROM;
+  const to = email;
+  const subject = process.env.VALIDATE_IP_EMAIL_SUBJECT;
+  const html = process.env.VALIDATE_IP_EMAIL_HTML.replace(/CODE/g, randomCode);
+  sendMail(from, to, subject, html, html);
+};
+
+module.exports = { sendMail, sendValidateUser, sendValidateIP };
